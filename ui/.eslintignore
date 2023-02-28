@@ -1,0 +1,12 @@
+node_modules
+dist
+themes
+.eslintrc.js
+tsconfig.json
+/src/react-app-env.d.ts
+/src/reportWebVitals.ts
+tailwind
+tailwind.config.js
+postcss.config.js
+gulp
+gulpfile.js

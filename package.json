@@ -1,0 +1,16 @@
+{
+  "name": "templates",
+  "version": "1.0.0",
+  "description": "A quick start repo for new projects",
+  "main": "index.js",
+  "author": "Akshant Jain",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "prepare": "husky install",
+    "start": "cd ui && yarn start"
+  },
+  "devDependencies": {
+    "husky": "^8.0.1"
+  }
+}

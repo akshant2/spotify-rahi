@@ -1,0 +1,13 @@
+**/node_modules
+**/dist
+**/package.json
+**/yarn.lock
+**/package-lock.json
+**/.prettierrc
+**/.eslintrc.js
+**/tsconfig.json
+**/tailwind
+**/tailwind.config.js
+**/postcss.config.js
+**/gulp
+**/gulpfile.js

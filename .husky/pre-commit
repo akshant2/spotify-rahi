@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd react-ui && yarn lint-staged && yarn tailwind && git add -A
