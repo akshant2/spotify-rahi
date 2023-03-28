@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavBar from "./NavBar";
-import { Track } from "../types";
+import { Artist, Track } from "../types";
 import ExplicitIcon from "@mui/icons-material/Explicit";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import { green, red } from "@mui/material/colors";
@@ -10,17 +10,16 @@ import Auth from "./Auth";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function AlbumPage() {
-  const { id } = useParams();
-  const [albumName, setAlbumName] = useState("");
-  const [albumTracks, setAlbumTracks] = useState<Track[]>([]);
-  const [albumImage, setAlbumImage] = useState("");
-  const [albumArtist, setAlbumArtist] = useState("");
-  const [albumDate, setAlbumDate] = useState("");
-  const [total, setTotal] = useState("");
   const accessToken = Auth();
+  const { id } = useParams();
+  const [artistImage, setArtistImage] = useState("");
+  const [artistName, setArtistName] = useState("");
+  const [followers, setFollowers] = useState("");
+  const [type, setType] = useState("");
+  const [tracks, setTracks] = useState<Track[]>([]);
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const getAlbum = () => {
+  const getArtist = () => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -29,49 +28,61 @@ export default function AlbumPage() {
       },
     };
 
-    fetch(`https://api.spotify.com/v1/albums/${id}?market=US`, searchParameters)
+    fetch(`https://api.spotify.com/v1/artists/${id}`, searchParameters)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setAlbumTracks(data.tracks.items);
-        setAlbumImage(data.images[0].url);
-        setAlbumName(data.name);
-        setAlbumArtist(data.artists[0].name);
-        setAlbumDate(data.release_date);
-        setTotal(data.total_tracks);
+        setArtistImage(data.images[0].url);
+        setArtistName(data.name);
+        setFollowers(data.followers.total);
+        setType(data.type);
+      });
+  };
+
+  const getArtistTracks = () => {
+    const searchParameters = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    fetch(
+      `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,
+      searchParameters
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setTracks(data.tracks);
       });
   };
 
   useEffect(() => {
     if (accessToken) {
-      getAlbum();
+      getArtist();
+      getArtistTracks();
     }
   }, [accessToken]);
-
-  const msToTime = (s: number) => {
-    const ms = s % 1000;
-    s = (s - ms) / 1000;
-    const secs = s % 60;
-    s = (s - secs) / 60;
-    const mins = s % 60;
-    const min = String(mins).padStart(2, "0");
-    const sec = String(secs).padStart(2, "0");
-    return min + ":" + sec;
-  };
 
   return (
     <div>
       <NavBar />
       <div className="bg-black flex space-x-5 mx-auto max-w-8xl py-6 px-4">
-        <img className="w-72 h-72" src={albumImage} alt="Album Image" />
+        <img
+          className="h-72 w-72 rounded-md"
+          src={artistImage}
+          alt="Album Image"
+        />
         <div>
-          <h3 className="text-sm text-white">Album</h3>
+          <h3 className="text-sm text-white">Artist</h3>
           <div className="py-12">
             <h1 className="text-7xl font-bold tracking-tight text-white">
-              {albumName}
+              {artistName}
             </h1>
             <h2 className="py-7 text-1xl font-semibold text-white">
-              {`${albumArtist} | ${albumDate.slice(0, 4)} | ${total} songs`}
+              {followers}
             </h2>
             <div>
               <PlayCircleRoundedIcon
@@ -103,12 +114,12 @@ export default function AlbumPage() {
               </tr>
             </thead>
             <tbody>
-              {albumTracks.map((track) => (
+              {tracks.map((track, i) => (
                 <tr
                   key={track.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  <td className="px-6 py-4"> {track.track_number} </td>
+                  <td className="px-6 py-4"> {i + 1} </td>
 
                   <th
                     scope="row"
@@ -116,8 +127,8 @@ export default function AlbumPage() {
                   >
                     <img
                       className="w-16 h-16"
-                      src={albumImage}
-                      alt="Album Image"
+                      src={track.album.images[0].url}
+                      alt="Track Image"
                     />
                     <div className="pl-3">
                       <div className="text-base font-semibold">
@@ -131,7 +142,7 @@ export default function AlbumPage() {
                       </div>
                     </div>
                   </th>
-                  <td className="px-6 py-4"> {msToTime(track.duration_ms)} </td>
+                  <td className="px-6 py-4"> </td>
                 </tr>
               ))}
             </tbody>

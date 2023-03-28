@@ -11,6 +11,7 @@ import SearchBar from "./components/SearchBar";
 import AlbumPage from "./components/AlbumPage";
 import PlaylistPage from "./components/PlaylistPage";
 import Library from "./components/Library";
+import ArtistPage from "./components/ArtistPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,6 +26,7 @@ root.render(
           <Route path="/search" element={<SearchBar />} />
           <Route path="/album/:id" element={<AlbumPage />} />
           <Route path="/playlist/:id" element={<PlaylistPage />} />
+          <Route path="/artist/:id" element={<ArtistPage />} />
           <Route path="/library" element={<Library />} />
         </Routes>
       </BrowserRouter>

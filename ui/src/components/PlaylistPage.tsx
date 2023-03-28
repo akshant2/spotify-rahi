@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavBar from "./NavBar";
-import { PlaylistTracks } from "../types/types";
+import { PlaylistTracks } from "../types";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { green, red } from "@mui/material/colors";
@@ -71,7 +71,7 @@ export default function PlaylistPage() {
       <div className="bg-black flex space-x-5 mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-15">
         <img className="w-72 h-72" src={playlistImage} alt="Album Image" />
         <div>
-          <h3 className="text-xs text-white">Playlist</h3>
+          <h3 className="text-sm text-white">Playlist</h3>
 
           <div className="py-10">
             <h1 className="text-7xl font-bold tracking-tight text-white">

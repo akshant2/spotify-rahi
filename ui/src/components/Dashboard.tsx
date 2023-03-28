@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import Player from "./Player";
-import { Albums } from "../styles/Albums";
+import { Albums } from "./Albums";
 import { Link } from "react-router-dom";
-import { Album, Playlist } from "../types/types";
+import { Album, Playlist } from "../types";
 import Auth from "./Auth";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -27,7 +27,6 @@ export default function Dashboard() {
     fetch("https://api.spotify.com/v1/browse/new-releases", searchParameters)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setReleases(data.albums.items);
       });
   };
@@ -47,7 +46,6 @@ export default function Dashboard() {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setPlaylists(data.playlists.items);
         setMessage(data.message);
       });
@@ -117,34 +115,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-/*          <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-8">
-              {releases.map((release, i) => (
-                <div key={i} className="group relative">
-                  <div className="relative overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
-                    <img
-                      src={release.images[0].url}
-                      className="h-full w-full object-cover object-center"
-                      alt="NewRelease Image"
-                    />
-                  </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-900">
-                        <a href={release.href}>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {release.name}
-                        </a>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        {release.artists[0].name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-*/

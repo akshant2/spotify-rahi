@@ -1,12 +1,14 @@
 export type Image = {
   url: string;
+  height: number;
+  width: number;
 };
 
 export type Artist = {
   id: string;
   images: Image[];
   name: string;
-  length: number;
+  popularity: number;
 };
 
 export type Track = {
