@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Album } from "../types";
+import { Album } from "../types/types";
 import { Link } from "react-router-dom";
 
 export const Albums: FC<AlbumType> = ({ album }) => {

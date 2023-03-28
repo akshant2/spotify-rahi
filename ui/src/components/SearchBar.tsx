@@ -4,11 +4,9 @@ import { SearchOutlined } from "@mui/icons-material";
 import NavBar from "./NavBar";
 import Player from "./Player";
 import { Tracks } from "./Tracks";
-import { Albums } from "./Albums";
-import { Artist, Track, Album } from "../types";
-
-const client_id = "c01ff52afa434ea490f0081740544b71";
-const client_secret = "5b0bb494f9964251be58dcb8f1eba45e";
+import { Albums } from "../styles/Albums";
+import { Artist, Track, Album } from "../types/types";
+import Auth from "./Auth";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function SearchBar() {
@@ -16,21 +14,7 @@ export default function SearchBar() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [accessToken, setAccessToken] = useState("");
-
-  useEffect(() => {
-    //API access token
-    const authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
+  const accessToken = Auth();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const searchSpotify = () => {

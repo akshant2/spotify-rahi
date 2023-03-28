@@ -1,20 +1,23 @@
+export type Image = {
+  url: string;
+};
+
 export type Artist = {
   id: string;
-  images: any;
+  images: Image[];
   name: string;
   length: number;
 };
 
 export type Track = {
   id: string;
-  images: any;
+  images: Image[];
   name: string;
-  artists: any;
-  album: any;
+  artists: Artist[];
+  album: Album;
   duration_ms: number;
   track_number: number;
   explicit: boolean;
-  track: any;
 
   release_date: string;
 
@@ -23,16 +26,16 @@ export type Track = {
 
 export type Album = {
   id: string;
-  images: any;
+  images: Image[];
   name: string;
   length: number;
   release_date: string;
-  artists: any;
+  artists: Artist[];
 };
 
 export type Playlist = {
   id: string;
-  images: any;
+  images: Image[];
   name: string;
   length: number;
   release_date: string;
@@ -42,12 +45,10 @@ export type Playlist = {
 
 export type PlaylistTracks = {
   id: string;
-  images: any;
+  images: Image[];
   name: string;
-  length: number;
   release_date: string;
-
-  track: any;
+  track: Track;
 
   description: string;
 };

@@ -21,7 +21,7 @@ export default function Player() {
 
       <div>
         <div className="py-1 bg-zinc-900 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
-          <div className="px-10 flex-auto flex items-center justify-evenly">
+          <div className="px-5 flex-auto flex items-center justify-evenly">
             <button
               type="button"
               className="bg-zinc-800 rounded-md hidden sm:block lg:hidden xl:block"
@@ -39,7 +39,7 @@ export default function Player() {
             <PauseIcon />
           </button>
 
-          <div className="px-10 flex-auto flex items-center justify-evenly">
+          <div className="px-5 flex-auto flex items-center justify-evenly">
             <button
               type="button"
               className="bg-zinc-800 rounded-md hidden sm:block lg:hidden xl:block"

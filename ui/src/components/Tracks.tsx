@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Artist, Track } from "../types";
+import { Artist, Track } from "../types/types";
 import ExplicitOutlinedIcon from "@mui/icons-material/Explicit";
 //import {msToTime} from "./SearchBar"
 

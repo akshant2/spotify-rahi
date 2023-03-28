@@ -1,36 +1,18 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 import Player from "./Player";
-import { Albums } from "./Albums";
+import { Albums } from "../styles/Albums";
 import { Link } from "react-router-dom";
-import { Album, Playlist } from "../types";
-
-const client_id = "c01ff52afa434ea490f0081740544b71";
-const client_secret = "5b0bb494f9964251be58dcb8f1eba45e";
+import { Album, Playlist } from "../types/types";
+import Auth from "./Auth";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function Dashboard() {
-  const [accessToken, setAccessToken] = useState("");
   const [releases, setReleases] = useState<Album[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    //API access token
-    const authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => {
-        console.log(data);
-        setAccessToken(data.access_token);
-      });
-  }, []);
+  const accessToken = Auth();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const getNewReleases = () => {
@@ -87,11 +69,9 @@ export default function Dashboard() {
             Featured Playlists
           </h2>
           <div>
-            <h2 className="py-2 text-sm font-semibold text-gray-900">
-              {message}
-            </h2>
+            <h2 className=" text-sm font-semibold text-gray-900">{message}</h2>
           </div>
-          <div className="py-2 overflow-y-auto h-100 grid grid-cols-4 gap-y-10 gap-x-6">
+          <div className="py-2 h-100 grid grid-cols-4 gap-y-10 gap-x-6">
             {playlists.slice(0, 4).map((playlist, i) => (
               <div key={i} className="group relative">
                 <Link to={`/playlist/${playlist.id}`}></Link>
@@ -104,12 +84,17 @@ export default function Dashboard() {
                 </div>
                 <div className="mt-4 flex justify-between">
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-900">
-                      <a href={`http://localhost:3000/playlist/${playlist.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {playlist.description}
-                      </a>
-                    </h3>
+                    <a
+                      className="text-sm font-semibold no-underline text-zinc-900"
+                      href={`http://localhost:3000/playlist/${playlist.id}`}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-0 no-underline"
+                      />
+                      {playlist.description}
+                    </a>
+
                     <p className="mt-1 text-sm text-green-600">
                       {playlist.name}
                     </p>

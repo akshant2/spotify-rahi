@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavBar from "./NavBar";
-import { PlaylistTracks } from "../types";
+import { PlaylistTracks } from "../types/types";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { green, red } from "@mui/material/colors";
-
-const client_id = "c01ff52afa434ea490f0081740544b71";
-const client_secret = "5b0bb494f9964251be58dcb8f1eba45e";
+import Auth from "./Auth";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function PlaylistPage() {
-  const [accessToken, setAccessToken] = useState("");
   const { id } = useParams();
   const [playlistName, setPlaylistName] = useState("");
   const [playlistTracks, setPlaylistTracks] = useState<PlaylistTracks[]>([]);
@@ -19,20 +16,7 @@ export default function PlaylistPage() {
   const [playlistInfo, setPlaylistInfo] = useState("");
   const [playlistFollowers, setPlaylistFollowers] = useState("");
   const [owner, setOwner] = useState("");
-
-  useEffect(() => {
-    //API access token
-    const authParameters = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`,
-    };
-    fetch("https://accounts.spotify.com/api/token", authParameters)
-      .then((result) => result.json())
-      .then((data) => setAccessToken(data.access_token));
-  }, []);
+  const accessToken = Auth();
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const getPlaylist = () => {
