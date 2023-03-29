@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -53,9 +53,7 @@ export default function Player() {
         <div>
           <div className="relative p-2">
             <div className="w-100 bg-zinc-700 rounded-full overflow-hidden">
-              <div //progress bar
-                className="bg-green-600 w-1/2 h-2"
-              ></div>
+              <div className="bg-green-600 w-1/2 h-2"></div>
             </div>
           </div>
 

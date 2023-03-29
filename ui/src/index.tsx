@@ -5,13 +5,13 @@ import reportWebVitals from "./reportWebVitals";
 import "./styles/tailwind.css";
 import { StyledEngineProvider } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
-import SearchBar from "./components/SearchBar";
-import AlbumPage from "./components/AlbumPage";
-import PlaylistPage from "./components/PlaylistPage";
-import Library from "./components/Library";
-import ArtistPage from "./components/ArtistPage";
+import Login from "./Pages/Login";
+import Dashboard from "./Pages/Dashboard";
+import SearchBar from "./Pages/SearchBar";
+import AlbumPage from "./Pages/AlbumPage";
+import PlaylistPage from "./Pages/PlaylistPage";
+import Library from "./Pages/Library";
+import ArtistPage from "./Pages/ArtistPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

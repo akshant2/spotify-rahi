@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import NavBar from "./NavBar";
+import NavBar from "../components/NavBar";
 
 const client_id = "c01ff52afa434ea490f0081740544b71";
 const client_secret = "5b0bb494f9964251be58dcb8f1eba45e";

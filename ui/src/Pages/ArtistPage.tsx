@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import NavBar from "./NavBar";
-import { Artist, Track } from "../types";
-import ExplicitIcon from "@mui/icons-material/Explicit";
+import NavBar from "../components/NavBar";
+import { Track } from "../types";
+import { Tracks } from "../components/Tracks";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import { green, red } from "@mui/material/colors";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import Auth from "./Auth";
+import Auth from "../utils/Auth";
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default function AlbumPage() {
   const accessToken = Auth();
   const { id } = useParams();
   const [artistImage, setArtistImage] = useState("");
   const [artistName, setArtistName] = useState("");
   const [followers, setFollowers] = useState("");
-  const [type, setType] = useState("");
   const [tracks, setTracks] = useState<Track[]>([]);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const getArtist = () => {
     const searchParameters = {
       method: "GET",
@@ -35,7 +32,6 @@ export default function AlbumPage() {
         setArtistImage(data.images[0].url);
         setArtistName(data.name);
         setFollowers(data.followers.total);
-        setType(data.type);
       });
   };
 
@@ -53,8 +49,7 @@ export default function AlbumPage() {
       searchParameters
     )
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then((data: Track) => {
         setTracks(data.tracks);
       });
   };
@@ -65,6 +60,10 @@ export default function AlbumPage() {
       getArtistTracks();
     }
   }, [accessToken]);
+
+  const formatNumberWithCommas = (num: string) => {
+    return num.toLocaleString();
+  };
 
   return (
     <div>
@@ -81,8 +80,8 @@ export default function AlbumPage() {
             <h1 className="text-7xl font-bold tracking-tight text-white">
               {artistName}
             </h1>
-            <h2 className="py-7 text-1xl font-semibold text-white">
-              {followers}
+            <h2 className="py-3 text-1xl font-semibold text-white">
+              {`${formatNumberWithCommas(followers)} monthly listeners`}
             </h2>
             <div>
               <PlayCircleRoundedIcon
@@ -98,56 +97,7 @@ export default function AlbumPage() {
       </div>
 
       <div>
-        <div className="overflow-x-auto bg-gray-200 relative">
-          <table className="mx-auto w-full text-sm text-left text-gray-500">
-            <thead className="text-sm text-gray-700 uppercase bg-gray-200">
-              <tr>
-                <th scope="col" className="px-6 py-3">
-                  #
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Songs
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Duration
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {tracks.map((track, i) => (
-                <tr
-                  key={track.id}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="px-6 py-4"> {i + 1} </td>
-
-                  <th
-                    scope="row"
-                    className="flex items-center px-6 py-4 text-gray-900 overflow-wrap dark:text-white"
-                  >
-                    <img
-                      className="w-16 h-16"
-                      src={track.album.images[0].url}
-                      alt="Track Image"
-                    />
-                    <div className="pl-3">
-                      <div className="text-base font-semibold">
-                        {track.name}
-                      </div>
-                      <div className="flex font-normal text-gray-500">
-                        {track.explicit ? <ExplicitIcon /> : ""}
-                        <p className="mt-0.5 text-sm text-zinc-400">
-                          {track.artists[0].name}
-                        </p>
-                      </div>
-                    </div>
-                  </th>
-                  <td className="px-6 py-4"> </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Tracks track={tracks} albumImage="" />
       </div>
     </div>
   );

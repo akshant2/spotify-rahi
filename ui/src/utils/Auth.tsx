@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const client_id = `${process.env.REACT_APP_CLIENT_ID}`;
 const client_secret = `${process.env.REACT_APP_CLIENT_SECRET}`;
 export default function Auth() {
-  const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState();
 
   useEffect(() => {
     //API access token
