@@ -9,6 +9,7 @@ export type Artist = {
   popularity: number;
   items: Artist[];
   tracks: Track[];
+  followers: Followers;
 };
 
 export type Track = {

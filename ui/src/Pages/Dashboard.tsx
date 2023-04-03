@@ -9,8 +9,7 @@ import Auth from "../utils/Auth";
 export default function Dashboard() {
   const [releases, setReleases] = useState<Album[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
-  const [message, setMessage] = useState("");
-
+  const [message, setMessage] = useState<string>();
   const accessToken = Auth();
 
   const getNewReleases = () => {
