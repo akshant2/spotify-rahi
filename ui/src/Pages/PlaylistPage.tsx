@@ -14,18 +14,18 @@ export default function PlaylistPage() {
   const [playlist, setPlaylist] = useState({
     name: "",
     image: "",
-    info: "",
+    description: "",
     followers: "",
     owner: "",
   });
   const accessToken = Auth();
 
-  const getPlaylist = () => {
+  const getPlaylist = (token: string) => {
     const searchParameters = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -35,11 +35,10 @@ export default function PlaylistPage() {
     )
       .then((response) => response.json())
       .then((data: Playlist) => {
-        console.log(data);
         setPlaylist({
           name: data.name,
           image: data.images[0].url,
-          info: data.description,
+          description: data.description,
           followers: data.followers.total,
           owner: data.owner.display_name,
         });
@@ -48,7 +47,7 @@ export default function PlaylistPage() {
   };
   useEffect(() => {
     if (accessToken) {
-      getPlaylist();
+      getPlaylist(accessToken);
     }
   }, [accessToken]);
 
@@ -57,18 +56,24 @@ export default function PlaylistPage() {
       <NavBar />
 
       <div className="bg-black flex space-x-5 mx-auto max-w-8xl py-6 px-4 sm:px-6 lg:px-15">
-        <img className="w-72 h-72" src={playlist.image} alt="Album Image" />
+        <img className="w-72 h-72" src={playlist.image} alt=":Playlist Image" />
         <div>
-          <h3 className="text-sm text-white">Playlist</h3>
-
+          <h3 className="text-sm font-semibold text-green-400">Playlist</h3>
           <div className="py-10">
             <h1 className="text-7xl font-bold tracking-tight text-white">
               {playlist.name}
             </h1>
-            <h3 className="py-5 text-sm text-zinc-300">{playlist.info}</h3>
-            <h2 className="py-2 text-sm font-semibold text-white">{`${
-              playlist.owner
-            } | ${playlist.followers.toLocaleString()} likes`}</h2>
+            <h3 className="py-5 text-md text-zinc-300">
+              {playlist.description}
+            </h3>
+            <div className="flex">
+              <h2 className="py-2 text-sm font-semibold text-white">
+                {playlist.owner}
+              </h2>
+              <h2 className="py-2 px-2 text-sm text-white">{`${playlist.followers.toLocaleString()} likes`}</h2>
+              <h2 className="py-2 text-sm text-white">{`${playlistTracks.length} songs`}</h2>
+            </div>
+
             <div>
               <PlayCircleRoundedIcon sx={{ color: green[500], fontSize: 50 }} />
               <FavoriteBorderOutlinedIcon

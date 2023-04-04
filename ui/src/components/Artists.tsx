@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Artist } from "../types";
 import { Link } from "react-router-dom";
 
-export const Artists: FC<ArtistType> = ({ artist, n }) => {
+export const Artists: FC<ArtistType> = function ({ artist, n }) {
   return (
     <div className=" py-4 bg-zinc-900 h-auto px-10 mt-6 grid grid-cols-5 gap-y-10 gap-x-6">
       {artist.slice(0, n).map((artist) => (
@@ -19,7 +19,7 @@ export const Artists: FC<ArtistType> = ({ artist, n }) => {
           <div className="mt-4 flex justify-between">
             <div>
               <h3 className="text-1xl font-bold text-white">
-                <a href={`http://localhost:3000/artist/${artist.id}`}>
+                <a href={`${process.env.REACT_APP_DOMAIN}/artist/${artist.id}`}>
                   <span
                     aria-hidden="true"
                     className="object-center absolute inset-0"

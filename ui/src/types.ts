@@ -26,6 +26,7 @@ export type Track = {
   items: Track[];
   tracks: Track[];
   track: Track;
+  added_at: string;
 };
 
 export type Album = {
@@ -52,17 +53,8 @@ export type Playlist = {
   followers: Followers;
 };
 
-export type PlaylistTrack = {
-  id: string;
-  images: Image[];
-  name: string;
-  release_date: string;
-  track: Track;
-  artists: Artist[];
-  description: string;
-};
-
 export type API = {
+  categories: Category;
   albums: Album;
   playlists: Playlist;
   artists: Artist;
@@ -76,4 +68,15 @@ export type Owner = {
 
 export type Followers = {
   total: string;
+};
+
+export type Token = {
+  access_token: string;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  icons: Image[];
+  items: Category[];
 };

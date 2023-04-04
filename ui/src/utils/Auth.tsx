@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Token } from "../types";
 
 const client_id = `${process.env.REACT_APP_CLIENT_ID}`;
 const client_secret = `${process.env.REACT_APP_CLIENT_SECRET}`;
 export default function Auth() {
-  const [accessToken, setAccessToken] = useState();
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    //API access token
     const authParameters = {
       method: "POST",
       headers: {
@@ -16,7 +16,7 @@ export default function Auth() {
     };
     fetch("https://accounts.spotify.com/api/token", authParameters)
       .then((result) => result.json())
-      .then((data) => {
+      .then((data: Token) => {
         setAccessToken(data.access_token);
       });
   }, []);

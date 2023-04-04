@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 export default function NavBar() {
   return (
     <nav className="bg-black">

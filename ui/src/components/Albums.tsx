@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Album } from "../types";
 import { Link } from "react-router-dom";
 
-export const Albums: FC<AlbumType> = ({ album, n }) => {
+export const Albums: FC<AlbumType> = function ({ album, n }) {
   return (
     <div className="overflow-y-auto h-auto px-10 mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-5 lg:grid-cols-5">
       {album.slice(0, n).map((album, i) => (
@@ -19,7 +19,7 @@ export const Albums: FC<AlbumType> = ({ album, n }) => {
           <div className="mt-4 flex justify-between">
             <div>
               <h3 className="text-sm font-bold text-white">
-                <a href={`http://localhost:3000/album/${album.id}`}>
+                <a href={`${process.env.REACT_APP_DOMAIN}/album/${album.id}`}>
                   <span aria-hidden="true" className="absolute inset-0" />
                   {album.name}
                 </a>

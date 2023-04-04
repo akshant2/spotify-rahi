@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import NavBar from "../components/NavBar";
-import { Track, Artist } from "../types";
+import { Track, Artist, Album } from "../types";
 import { Tracks } from "../components/Tracks";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import { green, red } from "@mui/material/colors";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import Auth from "../utils/Auth";
+import { Albums } from "../components/Albums";
 export default function AlbumPage() {
   const accessToken = Auth();
   const { id } = useParams();
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [artist, setArtist] = useState({
     name: "",
@@ -34,16 +36,6 @@ export default function AlbumPage() {
           followers: data.followers.total,
         });
       });
-  };
-
-  const getArtistTracks = () => {
-    const searchParameters = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
 
     fetch(
       `https://api.spotify.com/v1/artists/${id}/top-tracks?market=US`,
@@ -53,12 +45,20 @@ export default function AlbumPage() {
       .then((data: Track) => {
         setTracks(data.tracks);
       });
+
+    fetch(
+      `https://api.spotify.com/v1/artists/${id}/albums?offset=0&limit=20&include_groups=album,single`,
+      searchParameters
+    )
+      .then((response) => response.json())
+      .then((data: Album) => {
+        setAlbums(data.items);
+      });
   };
 
   useEffect(() => {
     if (accessToken) {
       getArtist();
-      getArtistTracks();
     }
   }, [accessToken]);
 
@@ -72,7 +72,7 @@ export default function AlbumPage() {
           alt="Album Image"
         />
         <div>
-          <h3 className="text-sm text-white">Artist</h3>
+          <h3 className="text-sm font-semibold text-green-400">Artist</h3>
           <div className="py-12">
             <h1 className="text-7xl font-bold tracking-tight text-white">
               {artist.name}
@@ -81,12 +81,9 @@ export default function AlbumPage() {
               {`${artist.followers.toLocaleString()} monthly listeners`}
             </h2>
             <div>
-              <PlayCircleRoundedIcon
-                style={{ color: green[500], fontSize: 50 }}
-              />
+              <PlayCircleRoundedIcon sx={{ color: green[500], fontSize: 50 }} />
               <FavoriteBorderOutlinedIcon
-                style={{ color: red[500], fontSize: 50 }}
-                sx={{ m: 2 }}
+                sx={{ color: red[500], fontSize: 50, m: 2 }}
               />
             </div>
           </div>
@@ -95,6 +92,10 @@ export default function AlbumPage() {
 
       <div>
         <Tracks track={tracks} albumImage="" />
+      </div>
+      <div className="mx-auto max-w-8xl py-5 sm:px-6 lg:px-8 bg-zinc-900">
+        <h2 className="text-2xl font-bold text-white">Albums</h2>
+        <Albums album={albums} n={20} />
       </div>
     </div>
   );

@@ -18,6 +18,9 @@ export const PlaylistTracks: FC<PlaylistTrackType> = ({ playlistTrack }) => {
               Album
             </th>
             <th scope="col" className="px-6 py-3">
+              Date Added
+            </th>
+            <th scope="col" className="px-6 py-3">
               Duration
             </th>
           </tr>
@@ -25,7 +28,7 @@ export const PlaylistTracks: FC<PlaylistTrackType> = ({ playlistTrack }) => {
         <tbody>
           {playlistTrack.map((track, i) => (
             <tr
-              key={track.track.id}
+              key={i}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               <td className="px-6 py-4"> {i + 1} </td>
@@ -35,21 +38,28 @@ export const PlaylistTracks: FC<PlaylistTrackType> = ({ playlistTrack }) => {
                 className="flex items-center px-6 py-4 text-gray-900 overflow-wrap dark:text-white"
               >
                 <img
-                  className="w-16 h-16"
-                  src={track.track.album.images[0].url}
+                  className="w-20 h-20"
+                  src={track.track ? track.track.album.images[0].url : ""}
                   alt="Album Image"
                 />
                 <div className="pl-3">
                   <div className="text-base font-semibold">
-                    {track.track.name}
+                    {track.track ? track.track.name : "null"}
                   </div>
                   <div className="font-normal text-gray-500">
-                    {track.track.artists[0].name}
+                    {track.track ? track.track.artists[0].name : "null"}
                   </div>
                 </div>
               </th>
-              <td className="px-6 py-4">{track.track.album.name}</td>
-              <td className="px-6 py-4">{msToTime(track.track.duration_ms)}</td>
+              <td className="text-md px-6 py-4">
+                {track.track ? track.track.album.name : "null"}
+              </td>
+              <td className="text-md px-6 py-4">
+                {track.added_at ? track.added_at.substring(0, 10) : "null"}
+              </td>
+              <td className="px-6 py-4">
+                {msToTime(track.track ? track.track.duration_ms : 0)}
+              </td>
             </tr>
           ))}
         </tbody>
