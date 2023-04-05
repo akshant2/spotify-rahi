@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import NavBar from "../components/NavBar";
-import Player from "../components/Player";
+import React, { useState, useEffect, FC } from "react";
+import { NavBar } from "../components/NavBar";
+import { Player } from "../components/Player";
 import { Albums } from "../components/Albums";
 import { Categories } from "../components/Categories";
 import { Playlists } from "../components/Playlists";
 import { Album, Playlist, API, Category } from "../types";
-import Auth from "../utils/Auth";
+import { Auth } from "../utils/Auth";
 
-export default function Dashboard() {
+export const Dashboard: FC = function () {
   const accessToken = Auth();
   const [releases, setReleases] = useState<Album[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -112,4 +112,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-}
+};

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { TextField, IconButton, Button } from "@mui/material";
+import React, { FC, useState } from "react";
+import { TextField, IconButton } from "@mui/material";
 import { SearchOutlined } from "@mui/icons-material";
-import Auth from "../utils/Auth";
-import NavBar from "../components/NavBar";
-import Player from "../components/Player";
+import { Auth } from "../utils/Auth";
+import { NavBar } from "../components/NavBar";
+import { Player } from "../components/Player";
 import { Playlists } from "../components/Playlists";
 import { Tracks } from "../components/Tracks";
 import { Albums } from "../components/Albums";
@@ -11,7 +11,7 @@ import { Artists } from "../components/Artists";
 import { green } from "@mui/material/colors";
 import { Artist, Track, Album, Playlist, API } from "../types";
 
-export default function SearchBar() {
+export const SearchBar: FC = function () {
   const accessToken = Auth();
   const [searchInput, setSearchInput] = useState("");
   const [results, setResults] = useState<{
@@ -42,6 +42,7 @@ export default function SearchBar() {
     )
       .then((response) => response.json())
       .then((data: API) => {
+        console.log(data);
         setResults({
           tracks: data.tracks.items,
           artists: data.artists.items,
@@ -62,7 +63,7 @@ export default function SearchBar() {
             </div>
           </div>
 
-          <div className="h-screen overflow-x-auto mt-6 bg-gray-200 relative">
+          <div className="h-screen overflow-x-auto mt-2 bg-gray-200 relative">
             <Tracks track={results.tracks} albumImage="" />
           </div>
 
@@ -102,7 +103,13 @@ export default function SearchBar() {
           InputProps={{
             endAdornment: (
               <IconButton>
-                <SearchOutlined sx={{ color: green[50] }} />
+                <SearchOutlined
+                  onClick={() => {
+                    searchSpotify(accessToken);
+                    setDisplay(true);
+                  }}
+                  sx={{ color: green[50] }}
+                />
               </IconButton>
             ),
           }}
@@ -118,9 +125,6 @@ export default function SearchBar() {
         />
       </div>
       {render()}
-      <div className="p-12">
-        <Player />
-      </div>
     </div>
   );
-}
+};

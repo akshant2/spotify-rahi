@@ -3,7 +3,7 @@ import { Token } from "../types";
 
 const client_id = `${process.env.REACT_APP_CLIENT_ID}`;
 const client_secret = `${process.env.REACT_APP_CLIENT_SECRET}`;
-export default function Auth() {
+export const Auth: () => string | null = function () {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ export default function Auth() {
   }, []);
 
   return accessToken;
-}
+};

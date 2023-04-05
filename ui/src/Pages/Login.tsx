@@ -1,7 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 
 const AUTH_URL = process.env.REACT_APP_AUTH_URL;
-export default function Login() {
+export const Login: FC = function () {
   return (
     <div className="flex items-center justify-center h-screen py-12 px-4 sm:px-6 lg:px-8 bg-black">
       <div className="w-full max-w-md space-y-8">
@@ -26,4 +26,4 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};

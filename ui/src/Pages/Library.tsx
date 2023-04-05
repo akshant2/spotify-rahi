@@ -1,10 +1,10 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
-import Auth from "../utils/Auth";
+import React, { FC, useEffect, useState } from "react";
+import { NavBar } from "../components/NavBar";
+import { Auth } from "../utils/Auth";
 import { Album } from "../types";
-import { Button } from "@mui/material";
+import { TrackView } from "../components/TrackView";
 
-export default function Library() {
+export const Library: FC = function () {
   const accessToken = Auth();
   const [albums, setAlbums] = useState([]);
 
@@ -78,11 +78,14 @@ export default function Library() {
   return (
     <div>
       <NavBar />
-      <div>
+    </div>
+  );
+};
+/*
+* <div>
         <h1>Albums</h1> <br />
         <ul className="flex p-10 border-1 border-white">{renderPageNumbers}</ul>
         {renderData(currentItems)}
       </div>
-    </div>
-  );
-}
+*
+* */

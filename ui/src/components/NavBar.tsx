@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-export default function NavBar() {
+export const NavBar: FC = function () {
   return (
     <nav className="bg-black">
       <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
@@ -49,4 +49,4 @@ export default function NavBar() {
       </div>
     </nav>
   );
-}
+};

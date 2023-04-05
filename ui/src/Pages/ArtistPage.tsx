@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import NavBar from "../components/NavBar";
+import { NavBar } from "../components/NavBar";
 import { Track, Artist, Album } from "../types";
 import { Tracks } from "../components/Tracks";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import { green, red } from "@mui/material/colors";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import Auth from "../utils/Auth";
+import { Auth } from "../utils/Auth";
 import { Albums } from "../components/Albums";
-export default function AlbumPage() {
+export const ArtistPage: FC = function () {
   const accessToken = Auth();
   const { id } = useParams();
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -99,4 +99,4 @@ export default function AlbumPage() {
       </div>
     </div>
   );
-}
+};

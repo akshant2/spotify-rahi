@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import NavBar from "../components/NavBar";
+import { NavBar } from "../components/NavBar";
 import { Playlist, Track } from "../types";
 import { PlaylistTracks } from "../components/PlaylistTracks";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { green, red } from "@mui/material/colors";
-import Auth from "../utils/Auth";
+import { Auth } from "../utils/Auth";
 
-export default function PlaylistPage() {
+export const PlaylistPage: FC = function () {
   const { id } = useParams();
   const [playlistTracks, setPlaylistTracks] = useState<Track[]>([]);
   const [playlist, setPlaylist] = useState({
@@ -35,6 +35,7 @@ export default function PlaylistPage() {
     )
       .then((response) => response.json())
       .then((data: Playlist) => {
+        console.log(data);
         setPlaylist({
           name: data.name,
           image: data.images[0].url,
@@ -88,4 +89,4 @@ export default function PlaylistPage() {
       </div>
     </div>
   );
-}
+};

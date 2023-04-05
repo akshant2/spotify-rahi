@@ -1,11 +1,11 @@
-import NavBar from "../components/NavBar";
+import { NavBar } from "../components/NavBar";
 import { Playlists } from "../components/Playlists";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { API, Playlist } from "../types";
 import { useParams } from "react-router";
-import Auth from "../utils/Auth";
+import { Auth } from "../utils/Auth";
 
-export default function CategoryPage() {
+export const CategoryPage: FC = function () {
   const { id } = useParams();
   const accessToken = Auth();
   const [playlists, setPlaylists] = useState<{
@@ -66,4 +66,4 @@ export default function CategoryPage() {
       </main>
     </div>
   );
-}
+};
