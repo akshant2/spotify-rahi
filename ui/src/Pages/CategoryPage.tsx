@@ -4,18 +4,20 @@ import React, { FC, useEffect, useState } from "react";
 import { API, Playlist } from "../types";
 import { useParams } from "react-router";
 import { Auth } from "../utils/Auth";
+import { Player } from "../components/Player";
 
 export const CategoryPage: FC = function () {
   const { id } = useParams();
   const accessToken = Auth();
+  const [category, setCategory] = useState<string>("");
   const [playlists, setPlaylists] = useState<{
     items: Playlist[];
-    message: string;
+    message: string | null;
   }>({
     items: [],
-    message: "",
+    message: null,
   });
-  const getCategoriesPlaylists = (token: string) => {
+  const getCategoriesPlaylists = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -30,10 +32,20 @@ export const CategoryPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: API) => {
+        console.log(data);
         setPlaylists({
           items: data.playlists.items,
           message: "",
         });
+      });
+    fetch(
+      `https://api.spotify.com/v1/browse/categories/${id}`,
+      searchParameters
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setCategory(data.name);
       });
   };
 
@@ -49,21 +61,16 @@ export const CategoryPage: FC = function () {
 
       <main>
         <div className="h-auto mx-auto max-w-8xl py-5 sm:px-6 lg:px-8 bg-zinc-900">
-          <h2 className="text-2xl font-bold text-white">Popular</h2>
+          <h2 className="text-2xl font-bold text-white">{category}</h2>
           <div className="py-2">
-            <h2 className=" text-sm font-bold text-green-500">
-              Category Message
-            </h2>
+            <h2 className=" text-sm font-bold text-green-500">Popular</h2>
           </div>
-          <Playlists playlist={playlists.items} startIndex={0} endIndex={5} />
-        </div>
-        <div className="max-w-8xl px-4 py-8 bg-black">
-          <h2 className="px-4 py-2 text-2xl font-bold text-white">
-            Category Message
-          </h2>
-          <Playlists playlist={playlists.items} startIndex={5} endIndex={15} />
+          <Playlists playlist={playlists.items} endIndex={undefined} />
         </div>
       </main>
+      <div className="p-10">
+        <Player />
+      </div>
     </div>
   );
 };

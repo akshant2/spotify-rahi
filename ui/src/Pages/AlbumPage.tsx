@@ -7,7 +7,7 @@ import { Track, Album } from "../types";
 import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { green, red } from "@mui/material/colors";
-
+import { Player } from "../components/Player";
 export const AlbumPage: FC = function () {
   const { id } = useParams();
   const accessToken = Auth();
@@ -27,7 +27,7 @@ export const AlbumPage: FC = function () {
     tracks: [],
   });
 
-  const getAlbum = (token: string) => {
+  const getAlbum = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -39,6 +39,7 @@ export const AlbumPage: FC = function () {
     fetch(`https://api.spotify.com/v1/albums/${id}?market=US`, searchParameters)
       .then((response) => response.json())
       .then((data: Album) => {
+        console.log(data);
         setAlbum({
           artist: data.artists[0].name,
           date: data.release_date,
@@ -89,12 +90,10 @@ export const AlbumPage: FC = function () {
       </div>
 
       <div>
-        <Tracks track={album.tracks} albumImage={album.image} />
+        <Tracks track={album.tracks} albumImage={album.image} endIndex={5} />
       </div>
-      <div className="p-5 bg-zinc-900">
-        <h2 className="p-2 text-2xl font-semibold text-white">
-          {"Related Albums"}
-        </h2>
+      <div className="p-10">
+        <Player />
       </div>
     </div>
   );

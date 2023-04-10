@@ -8,17 +8,26 @@ import { green, red } from "@mui/material/colors";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { Auth } from "../utils/Auth";
 import { Albums } from "../components/Albums";
+import { Artists } from "../components/Artists";
+import { Player } from "../components/Player";
 export const ArtistPage: FC = function () {
   const accessToken = Auth();
   const { id } = useParams();
   const [albums, setAlbums] = useState<Album[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
-  const [artist, setArtist] = useState({
+  const [relatedArtists, setRelatedArtists] = useState<Artist[]>([]);
+  const [artist, setArtist] = useState<{
+    name: string;
+    image: string;
+    followers: string;
+    popularity: number;
+  }>({
     name: "",
     image: "",
     followers: "",
+    popularity: -1,
   });
-  const getArtist = () => {
+  const getArtist = (): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -34,6 +43,7 @@ export const ArtistPage: FC = function () {
           name: data.name,
           image: data.images[0].url,
           followers: data.followers.total,
+          popularity: data.popularity,
         });
       });
 
@@ -43,6 +53,7 @@ export const ArtistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Track) => {
+        console.log(data);
         setTracks(data.tracks);
       });
 
@@ -52,7 +63,17 @@ export const ArtistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Album) => {
+        console.log(data);
         setAlbums(data.items);
+      });
+    fetch(
+      `https://api.spotify.com/v1/artists/${id}/related-artists`,
+      searchParameters
+    )
+      .then((response) => response.json())
+      .then((data: Artist) => {
+        console.log();
+        setRelatedArtists(data.artists);
       });
   };
 
@@ -77,8 +98,11 @@ export const ArtistPage: FC = function () {
             <h1 className="text-7xl font-bold tracking-tight text-white">
               {artist.name}
             </h1>
-            <h2 className="py-3 text-1xl font-semibold text-white">
+            <h2 className="py-3 text-1xl font-semibold text-zinc-300">
               {`${artist.followers.toLocaleString()} monthly listeners`}
+            </h2>
+            <h2 className="mt-1 text-md text-zinc-300">
+              {`Rating: ${artist.popularity}`}
             </h2>
             <div>
               <PlayCircleRoundedIcon sx={{ color: green[500], fontSize: 50 }} />
@@ -91,11 +115,18 @@ export const ArtistPage: FC = function () {
       </div>
 
       <div>
-        <Tracks track={tracks} albumImage="" />
+        <Tracks track={tracks} albumImage="" endIndex={5} />
+      </div>
+      <div className="mx-auto max-w-8xl py-5 sm:px-6 lg:px-8 bg-black">
+        <h2 className="text-2xl font-bold text-white">Albums</h2>
+        <Albums album={albums} endIndex={5} />
       </div>
       <div className="mx-auto max-w-8xl py-5 sm:px-6 lg:px-8 bg-zinc-900">
-        <h2 className="text-2xl font-bold text-white">Albums</h2>
-        <Albums album={albums} n={20} />
+        <h2 className="text-2xl font-bold text-white">Related Artists</h2>
+        <Artists artist={relatedArtists} endIndex={5} />
+      </div>
+      <div className="p-10">
+        <Player />
       </div>
     </div>
   );

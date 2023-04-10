@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 export const NavBar: FC = function () {
   return (
-    <nav className="bg-black">
-      <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-8">
+    <nav>
+      <div className="mx-auto max-h-8xl px-2 sm:px-6 lg:px-8 bg-black">
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex-items">
             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -33,13 +33,6 @@ export const NavBar: FC = function () {
                     aria-current="page"
                   >
                     Search
-                  </a>
-                  <a
-                    href={`${process.env.REACT_APP_DOMAIN}/library`}
-                    className="bg-zinc-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                    aria-current="page"
-                  >
-                    My Library
                   </a>
                 </div>
               </div>

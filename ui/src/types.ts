@@ -3,6 +3,7 @@ export type Image = {
 };
 
 export type Artist = {
+  artists: Artist[];
   id: string;
   images: Image[];
   name: string;

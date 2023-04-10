@@ -12,7 +12,6 @@ import { AlbumPage } from "./Pages/AlbumPage";
 import { PlaylistPage } from "./Pages/PlaylistPage";
 import { ArtistPage } from "./Pages/ArtistPage";
 import { CategoryPage } from "./Pages/CategoryPage";
-import { Library } from "./Pages/Library";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -28,7 +27,6 @@ root.render(
           <Route path="/album/:id" element={<AlbumPage />} />
           <Route path="/playlist/:id" element={<PlaylistPage />} />
           <Route path="/artist/:id" element={<ArtistPage />} />
-          <Route path="/library" element={<Library />} />
           <Route path="/category/:id" element={<CategoryPage />} />
         </Routes>
       </BrowserRouter>

@@ -7,6 +7,7 @@ import PlayCircleRoundedIcon from "@mui/icons-material/PlayCircleRounded";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { green, red } from "@mui/material/colors";
 import { Auth } from "../utils/Auth";
+import { Player } from "../components/Player";
 
 export const PlaylistPage: FC = function () {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export const PlaylistPage: FC = function () {
   });
   const accessToken = Auth();
 
-  const getPlaylist = (token: string) => {
+  const getPlaylist = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -86,6 +87,9 @@ export const PlaylistPage: FC = function () {
       </div>
       <div>
         <PlaylistTracks playlistTrack={playlistTracks} />
+      </div>
+      <div className="p-10">
+        <Player />
       </div>
     </div>
   );

@@ -1,12 +1,22 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Artist } from "../types";
 import { Link } from "react-router-dom";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { green } from "@mui/material/colors";
+export const Artists: FC<ArtistType> = function ({ artist, endIndex }) {
+  const [expand, setExpand] = useState(false);
 
-export const Artists: FC<ArtistType> = function ({ artist, n }) {
+  if (expand) {
+    endIndex = undefined;
+  } else {
+    endIndex = 5;
+  }
+
   return (
     <div className=" py-4 bg-zinc-900 h-auto px-10 mt-6 grid grid-cols-5 gap-y-10 gap-x-6">
-      {artist.slice(0, n).map((artist) => (
-        <div key={artist.id} className="group relative">
+      {artist.slice(0, endIndex).map((artist, i) => (
+        <div key={i} className="group relative">
           <Link to={`/artist/${artist.id}`}></Link>
           <div className="aspect-w-1 aspect-h-1 overflow-hidden rounded-md bg-zinc-900 group-hover:opacity-75 lg:aspect-none">
             <img
@@ -27,13 +37,39 @@ export const Artists: FC<ArtistType> = function ({ artist, n }) {
                   {artist.name}
                 </a>
               </h3>
-              <p className="mt-1 text-sm text-zinc-400">Artist</p>
+              <h3 className="mt-1 text-sm text-zinc-400">
+                <p className="mt-1">{`Rating: ${
+                  artist.popularity ? artist.popularity : "N/A"
+                }`}</p>
+              </h3>
             </div>
+            <p className="text-sm font-medium text-white">Artist</p>
           </div>
         </div>
       ))}
+      <a
+        className="bg-zinc-900 text-white rounded-md text-sm font-medium"
+        onClick={(): void => {
+          if (expand) {
+            setExpand(false);
+          } else {
+            setExpand(true);
+          }
+        }}
+      >
+        {expand ? (
+          <h1 className="text-semibold ">
+            Show Less <ExpandLessIcon sx={{ color: green[500] }} />
+          </h1>
+        ) : (
+          <h1 className="text-semibold">
+            Show More
+            <ExpandMoreIcon sx={{ color: green[500] }} />
+          </h1>
+        )}
+      </a>
     </div>
   );
 };
 
-type ArtistType = { artist: Artist[]; n: number };
+type ArtistType = { artist: Artist[]; endIndex: number | undefined };

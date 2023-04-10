@@ -2,15 +2,13 @@ import React, { useState, useEffect, FC } from "react";
 import { NavBar } from "../components/NavBar";
 import { Player } from "../components/Player";
 import { Albums } from "../components/Albums";
-import { Categories } from "../components/Categories";
 import { Playlists } from "../components/Playlists";
-import { Album, Playlist, API, Category } from "../types";
+import { Album, Playlist, API } from "../types";
 import { Auth } from "../utils/Auth";
 
 export const Dashboard: FC = function () {
   const accessToken = Auth();
   const [releases, setReleases] = useState<Album[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [playlists, setPlaylists] = useState<{
     items: Playlist[];
     message: string;
@@ -18,8 +16,7 @@ export const Dashboard: FC = function () {
     items: [],
     message: "",
   });
-
-  const getNewReleases = (token: string) => {
+  const getNewReleases = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -34,7 +31,7 @@ export const Dashboard: FC = function () {
         setReleases(data.albums.items);
       });
   };
-  const getFeaturedPlaylists = (token: string) => {
+  const getFeaturedPlaylists = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -55,30 +52,11 @@ export const Dashboard: FC = function () {
         });
       });
   };
-  const getCategories = (token: string) => {
-    const searchParameters = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    fetch(
-      "https://api.spotify.com/v1/browse/categories?country=US&offset=0&limit=50",
-      searchParameters
-    )
-      .then((response) => response.json())
-      .then((data: API) => {
-        setCategories(data.categories.items);
-      });
-  };
 
   useEffect(() => {
     if (accessToken) {
       getNewReleases(accessToken);
       getFeaturedPlaylists(accessToken);
-      getCategories(accessToken);
     }
   }, [accessToken]);
 
@@ -94,20 +72,16 @@ export const Dashboard: FC = function () {
               {playlists.message ? playlists.message : ""}
             </h2>
           </div>
-          <Playlists playlist={playlists.items} startIndex={0} endIndex={5} />
+          <Playlists playlist={playlists.items} endIndex={5} />
         </div>
         <div className="max-w-8xl px-4 py-8 bg-black">
           <h2 className="px-4 py-2 text-2xl font-bold text-white">
             New Releases
           </h2>
-          <Albums album={releases} n={5} />
-        </div>
-        <div className="h-auto mx-auto max-w-8xl py-5 sm:px-6 lg:px-8 bg-zinc-900">
-          <h2 className="text-2xl font-bold text-white">Browse Categories</h2>
-          <Categories category={categories} />
+          <Albums album={releases} endIndex={5} />
         </div>
       </main>
-      <div className="p-12">
+      <div className="p-10">
         <Player />
       </div>
     </div>

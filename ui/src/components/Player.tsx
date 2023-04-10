@@ -1,13 +1,40 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import PauseIcon from "@mui/icons-material/Pause";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import { Auth } from "../utils/Auth";
+import LinearProgress from "@mui/material/LinearProgress";
+import { green } from "@mui/material/colors";
 
 export const Player: FC = function () {
+  const accessToken = Auth();
+  const [trackData, setTrackData] = useState();
+
+  const getTrack = (token: string): void => {
+    const searchParameters = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    fetch(`https://api.spotify.com/v1/tracks/`, searchParameters)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  useEffect(() => {
+    if (accessToken) {
+      getTrack(accessToken);
+    }
+  }, [accessToken]);
+
   return (
     <div>
-      <footer className="fixed bottom-0 left-0 w-full p-3 bg-zinc-900 border-t border-gray-200 shadow md:flex md:items-center md:justify-between">
+      <footer className="fixed bottom-0 left-0 w-full p-3 bg-zinc-900 border-t border-zinc-800 shadow md:flex md:items-center md:justify-between">
         <div className="flex flex-shrink-0 items-center">
           <img
             className="hidden h-8 w-auto lg:block"
@@ -23,7 +50,7 @@ export const Player: FC = function () {
         </div>
 
         <div>
-          <div className="py-1 bg-zinc-900 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
+          <div className="py-1 bg-zinc-900 text-slate-500  rounded-b-xl flex items-center">
             <div className="px-5 flex-auto flex items-center justify-evenly">
               <button
                 type="button"
@@ -53,22 +80,25 @@ export const Player: FC = function () {
             </div>
           </div>
 
-          <div>
-            <div className="relative p-2">
-              <div className="w-100 bg-zinc-700 rounded-full overflow-hidden">
-                <div className="bg-green-600 w-1/2 h-2"></div>
-              </div>
-            </div>
-
-            <div className="flex justify-between text-sm leading-6 font-medium tabular-nums">
+          <div className="flex">
+            <div className=" justify-between text-sm leading-6 font-medium tabular-nums px-2">
               <h2 className="text-zinc-500 ">0:00</h2>
+            </div>
+            <div className="w-full mt-2.5 ">
+              <LinearProgress
+                variant="determinate"
+                value={66}
+                sx={{ color: green[500] }}
+              />
+            </div>
+            <div className="justify-between text-sm leading-6 font-medium tabular-nums px-2 ">
               <h2 className="text-zinc-500 ">0:00</h2>
             </div>
           </div>
         </div>
 
         <ul className="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
-          hello
+          Not Playing
         </ul>
       </footer>
     </div>

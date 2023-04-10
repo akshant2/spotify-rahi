@@ -16,7 +16,7 @@ export const TrackView: FC<TrackViewType> = function (track) {
     valence: "",
   });
   const [showModal, setShowModal] = useState(false);
-  const getTrack = (token: string) => {
+  const getTrack = (token: string): void => {
     const searchParameters = {
       method: "GET",
       headers: {
@@ -50,8 +50,8 @@ export const TrackView: FC<TrackViewType> = function (track) {
 
   return (
     <div>
-      <a className="text-base font-semibold" onClick={() => setShowModal(true)}>
-        {<LyricsIcon />}
+      <a className="text-base font-semibold">
+        {<LyricsIcon onClick={(): void => setShowModal(true)} />}
       </a>
       {showModal ? (
         <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -82,7 +82,7 @@ export const TrackView: FC<TrackViewType> = function (track) {
                 </div>
                 <button
                   className="bg-transparent border-0 text-black float-right"
-                  onClick={() => setShowModal(false)}
+                  onClick={(): void => setShowModal(false)}
                 >
                   <CloseIcon />
                 </button>
