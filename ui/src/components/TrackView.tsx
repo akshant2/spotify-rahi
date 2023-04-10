@@ -8,7 +8,13 @@ import { Tooltip } from "@mui/material";
 
 export const TrackView: FC<TrackViewType> = function (track) {
   const accessToken = Auth();
-  const [trackData, setTrackData] = useState({
+  const [trackData, setTrackData] = useState<{
+    acousticness: string;
+    danceability: string;
+    energy: string;
+    loudness: string;
+    valence: string;
+  }>({
     acousticness: "",
     danceability: "",
     energy: "",

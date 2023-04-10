@@ -102,12 +102,12 @@ export const Tracks: FC<TrackType> = ({ track, albumImage, endIndex }) => {
       >
         {expand ? (
           <h1 className="px-5 text-semibold text-gray-900 ">
-            Show Less{" "}
+            Show Less
             <ExpandLessIcon sx={{ color: green[500], fontSize: 35 }} />
           </h1>
         ) : (
           <h1 className="px-5 text-semibold text-gray-900">
-            Show More{" "}
+            Show More
             <ExpandMoreIcon sx={{ color: green[500], fontSize: 35 }} />
           </h1>
         )}
