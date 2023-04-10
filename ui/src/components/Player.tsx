@@ -1,35 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import { Auth } from "../utils/Auth";
 import LinearProgress from "@mui/material/LinearProgress";
 import { green } from "@mui/material/colors";
 
 export const Player: FC = function () {
-  const accessToken = Auth();
-  const [trackData, setTrackData] = useState();
-
-  const getTrack = (token: string): void => {
-    const searchParameters = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    fetch(`https://api.spotify.com/v1/tracks/`, searchParameters)
-      .then((response) => response.json())
-      .then((data) => {});
-  };
-
-  useEffect(() => {
-    if (accessToken) {
-      getTrack(accessToken);
-    }
-  }, [accessToken]);
-
   return (
     <div>
       <footer className="fixed bottom-0 left-0 w-full p-3 bg-zinc-900 border-t border-zinc-800 shadow md:flex md:items-center md:justify-between">
