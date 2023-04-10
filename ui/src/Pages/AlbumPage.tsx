@@ -39,7 +39,6 @@ export const AlbumPage: FC = function () {
     fetch(`https://api.spotify.com/v1/albums/${id}?market=US`, searchParameters)
       .then((response) => response.json())
       .then((data: Album) => {
-        console.log(data);
         setAlbum({
           artist: data.artists[0].name,
           date: data.release_date,

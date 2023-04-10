@@ -21,9 +21,7 @@ export const Player: FC = function () {
 
     fetch(`https://api.spotify.com/v1/tracks/`, searchParameters)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+      .then((data) => {});
   };
 
   useEffect(() => {

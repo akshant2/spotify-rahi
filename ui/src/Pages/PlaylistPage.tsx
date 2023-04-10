@@ -36,7 +36,6 @@ export const PlaylistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Playlist) => {
-        console.log(data);
         setPlaylist({
           name: data.name,
           image: data.images[0].url,

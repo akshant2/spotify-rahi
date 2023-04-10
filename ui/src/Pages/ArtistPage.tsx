@@ -53,7 +53,6 @@ export const ArtistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Track) => {
-        console.log(data);
         setTracks(data.tracks);
       });
 
@@ -63,7 +62,6 @@ export const ArtistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Album) => {
-        console.log(data);
         setAlbums(data.items);
       });
     fetch(
@@ -72,7 +70,6 @@ export const ArtistPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: Artist) => {
-        console.log();
         setRelatedArtists(data.artists);
       });
   };

@@ -44,7 +44,6 @@ export const SearchBar: FC = function () {
     )
       .then((response) => response.json())
       .then((data: API) => {
-        console.log(data);
         setResults({
           tracks: data.tracks.items,
           artists: data.artists.items,

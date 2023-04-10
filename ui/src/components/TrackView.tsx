@@ -31,7 +31,6 @@ export const TrackView: FC<TrackViewType> = function (track) {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setTrackData({
           acousticness: data.acousticness,
           danceability: data.danceability,

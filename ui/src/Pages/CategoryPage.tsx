@@ -32,7 +32,6 @@ export const CategoryPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data: API) => {
-        console.log(data);
         setPlaylists({
           items: data.playlists.items,
           message: "",
@@ -44,7 +43,6 @@ export const CategoryPage: FC = function () {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setCategory(data.name);
       });
   };
